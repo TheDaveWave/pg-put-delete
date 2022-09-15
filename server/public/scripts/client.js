@@ -178,7 +178,7 @@ function updateBook(event) {
 
 // changed the author and title of a book.
 function editBook() {
-  console.log('updateBook:',editBookId, editModeVar);
+  // console.log('updateBook:',editBookId, editModeVar);
   $.ajax({
     method: 'PUT',
     url: `/books/edit/${editBookId}`,
