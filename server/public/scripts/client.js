@@ -54,11 +54,17 @@ function renderBooks(books) {
 
   for(let i = 0; i < books.length; i += 1) {
     let book = books[i];
+    let read = 'No';
+    // change the boolean value for isRead to yes or no.
+    if(book.isRead === true) {
+      read = 'Yes';
+    }
     // For each book, append a new row to our table
     $('#bookShelf').append(`
       <tr>
         <td>${book.title}</td>
         <td>${book.author}</td>
+        <td>${read}</td>
         <td>
           <button data-bookid="${book.id}" class="delBtn">Delete</button>
         </td>
