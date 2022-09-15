@@ -24,10 +24,20 @@ function toggleEditMode(event) {
   // set editMode variable to true.
   editModeVar = true;
   editBookId = $(event.target).siblings('.delBtn').data('bookid');
+  formatEditMode();
 }
 
-function editMode () {
+// format the editMode layout.
+function formatEditMode() {
+  $('#h3').text('Edit Book');
+  $('#book-form').append(`<button class="cancelBtn">Cancel</button>`);
+  $('#title').val(``);
+  $('#author').val(``);
+}
 
+// get book with specific bookid.
+function getBookWithId(bookid) {
+  
 }
 
 function handleSubmit() {
@@ -114,25 +124,29 @@ function deleteBook(event) {
 // changes the isRead value of a book 
 // what a mess this function has become.
 function updateBook(event) {
-  // get the buttons parent td then the td's next sibling's child 
-  // with class .delBtn 's data.
+  // get the buttons parent td then the td's next sibling's
+  // child with class .delBtn 's data.
   let bookid = $(event.target)
     .closest('td').next('td')
     .find('.delBtn').data('bookid');
   // console.log(bookid);
   let isRead = changeIsRead(event);
   // console.log(isRead);
-  // PUT request for "books".
-  $.ajax({
-    method: 'PUT',
-    url: `/books/${bookid}`,
-    data: {isRead}
-  }).then(() => {
-    console.log(`successfully updated book with id:${bookid}`);
-    refreshBooks();
-  }).catch((error) => {
-    console.log(error);
-  });
+
+  if(editModeVar === false) {
+    // PUT request for "books".
+    $.ajax({
+      method: 'PUT',
+      url: `/books/${bookid}`,
+      data: {isRead}
+    }).then(() => {
+      console.log(`successfully updated book with id:${bookid}`);
+      refreshBooks();
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+  
 }
 
 // get the clicked button's data.
@@ -147,4 +161,8 @@ function changeIsRead (event) {
     isRead = false;
   }
   return isRead;
+}
+
+function editMode () {
+
 }

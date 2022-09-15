@@ -34,6 +34,19 @@ router.post('/',  (req, res) => {
     });
 });
 
+// GET request to get book with specific id.
+router.get('/:bookid', (req,res) => {
+  let bookid = req.params.bookid;
+  console.log(`In GET route /books/${bookid}`, req.params);
+  let query = `SELECT * FROM "books" WHERE "id"=$1;`;
+  pool.query(query, [bookid]).then((result) => {
+    res.send(result.rows);
+  }).catch((error) => {
+    console.log(`Error getting book with id${bookid}`, error);
+    res.sendStatus(500);
+  });
+});
+
 // TODO - PUT
 // Updates a book to show that it has been read
 // Request must include a parameter indicating what book to update - the id
