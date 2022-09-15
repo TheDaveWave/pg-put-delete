@@ -24,7 +24,6 @@ function toggleEditMode(event) {
   // set editMode variable to true.
   editModeVar = true;
   editBookId = $(event.target).siblings('.delBtn').data('bookid');
-  console.log(editBookId);
 }
 
 function editMode () {
