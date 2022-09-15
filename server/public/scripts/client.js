@@ -12,6 +12,12 @@ function addClickHandlers() {
   $('#bookShelf').on('click', '.readBtn', updateBook);
 }
 
+// variable to check if the user is in edit mode.
+let editMode = false;
+// global variable to store book id for edit mode.
+let currentBookId;
+
+
 function handleSubmit() {
   console.log('Submit button clicked.');
   let book = {};
@@ -70,6 +76,7 @@ function renderBooks(books) {
           <button data-readid="${book.isRead}" class="readBtn">Read</button>
         </td>
         <td>
+          <button class="delBtn">Delete</button>
           <button data-bookid="${book.id}" class="delBtn">Delete</button>
         </td>
       </tr>
@@ -95,7 +102,8 @@ function deleteBook(event) {
 // changes the isRead value of a book 
 // what a mess this function has become.
 function updateBook(event) {
-  // get the buttons parent td then the td's next sibling's child's data.
+  // get the buttons parent td then the td's next sibling's child 
+  // with class .delBtn 's data.
   let bookid = $(event.target)
     .closest('td').next('td')
     .find('.delBtn').data('bookid');
