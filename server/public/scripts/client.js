@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 function addClickHandlers() {
   $('#submitBtn').on('click', handleSubmit);
-
+  console.log('Edit mode is:',editModeVar);
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.delBtn', deleteBook);
   $('#bookShelf').on('click', '.readBtn', updateBook);
@@ -15,16 +15,20 @@ function addClickHandlers() {
 }
 
 // variable to check if the user is in edit mode.
-let editMode = false;
+let editModeVar = false;
 // global variable to store book id for edit mode.
 let editBookId;
 
 // toggle edit mode for user to edit book data.
 function toggleEditMode(event) {
   // set editMode variable to true.
-  editMode = true;
+  editModeVar = true;
   editBookId = $(event.target).siblings('.delBtn').data('bookid');
   console.log(editBookId);
+}
+
+function editMode () {
+
 }
 
 function handleSubmit() {
@@ -117,16 +121,7 @@ function updateBook(event) {
     .closest('td').next('td')
     .find('.delBtn').data('bookid');
   // console.log(bookid);
-  // get the clicked button's data.
-  let currentIsRead = $(event.target).data('readid');
-  // console.log(currentIsRead);
-  let isRead = false;
-  // inverse the isRead value to send back to the server.
-  if (currentIsRead === false) {
-    isRead = true;
-  } else if (currentIsRead === true) {
-    isRead = false;
-  }
+  let isRead = changeIsRead(event);
   // console.log(isRead);
   // PUT request for "books".
   $.ajax({
@@ -139,4 +134,18 @@ function updateBook(event) {
   }).catch((error) => {
     console.log(error);
   });
+}
+
+// get the clicked button's data.
+function changeIsRead (event) {
+  let currentIsRead = $(event.target).data('readid');
+  // console.log(currentIsRead);
+  let isRead = false;
+  // inverse the isRead value to send back to the server.
+  if (currentIsRead === false) {
+    isRead = true;
+  } else if (currentIsRead === true) {
+    isRead = false;
+  }
+  return isRead;
 }
