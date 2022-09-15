@@ -10,13 +10,22 @@ function addClickHandlers() {
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.delBtn', deleteBook);
   $('#bookShelf').on('click', '.readBtn', updateBook);
+  // click handler for edit mode
+  $('#bookShelf').on('click', '.editBtn', toggleEditMode);
 }
 
 // variable to check if the user is in edit mode.
 let editMode = false;
 // global variable to store book id for edit mode.
-let currentBookId;
+let editBookId;
 
+// toggle edit mode for user to edit book data.
+function toggleEditMode(event) {
+  // set editMode variable to true.
+  editMode = true;
+  editBookId = $(event.target).siblings('.delBtn').data('bookid');
+  console.log(editBookId);
+}
 
 function handleSubmit() {
   console.log('Submit button clicked.');
@@ -76,7 +85,7 @@ function renderBooks(books) {
           <button data-readid="${book.isRead}" class="readBtn">Read</button>
         </td>
         <td>
-          <button class="delBtn">Delete</button>
+          <button class="editBtn">Edit</button>
           <button data-bookid="${book.id}" class="delBtn">Delete</button>
         </td>
       </tr>
