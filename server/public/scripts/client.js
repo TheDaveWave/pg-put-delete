@@ -9,6 +9,7 @@ function addClickHandlers() {
 
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.delBtn', deleteBook);
+  $('#bookShelf').on('click', '.readBtn', updateBook);
 }
 
 function handleSubmit() {
@@ -66,6 +67,9 @@ function renderBooks(books) {
         <td>${book.author}</td>
         <td>${read}</td>
         <td>
+          <button data-readid="${book.isRead}" class="readBtn">Read</button>
+        </td>
+        <td>
           <button data-bookid="${book.id}" class="delBtn">Delete</button>
         </td>
       </tr>
@@ -82,6 +86,38 @@ function deleteBook(event) {
   }).then(() => {
     // get the updated list from "books" after 
     // a book has been deleted.
+    refreshBooks();
+  }).catch((error) => {
+    console.log(error);
+  });
+}
+
+// changes the isRead value of a book 
+// what a mess this function has become.
+function updateBook(event) {
+  // get the buttons parent td then the td's next sibling's child's data.
+  let bookid = $(event.target)
+    .closest('td').next('td')
+    .find('.delBtn').data('bookid');
+  // console.log(bookid);
+  // get the clicked button's data.
+  let currentIsRead = $(event.target).data('readid');
+  // console.log(currentIsRead);
+  let isRead = false;
+  // inverse the isRead value to send back to the server.
+  if (currentIsRead === false) {
+    isRead = true;
+  } else if (currentIsRead === true) {
+    isRead = false;
+  }
+  // console.log(isRead);
+
+  $.ajax({
+    method: 'PUT',
+    url: `/books/${bookid}`,
+    data: {isRead}
+  }).then(() => {
+    console.log(`successfully updated book with id:${bookid}`);
     refreshBooks();
   }).catch((error) => {
     console.log(error);
