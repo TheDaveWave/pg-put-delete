@@ -58,7 +58,10 @@ function renderBooks(books) {
       <tr>
         <td>${book.title}</td>
         <td>${book.author}</td>
+        <td><button data-bookid="${book.id}">Delete</button></td>
       </tr>
     `);
   }
 }
+
+// deletes a book from the database
