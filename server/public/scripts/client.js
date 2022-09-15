@@ -5,7 +5,20 @@ $(document).ready(function(){
 });
 
 function addClickHandlers() {
-  $('#submitBtn').on('click', handleSubmit);
+  // $('#submitBtn').on('click', handleSubmit);
+  $('#submitBtn').on('click', function() {
+    if(editModeVar === true) {
+      formatEditMode;
+    } else {
+      handleSubmit;
+    }
+  });
+
+  $('#book-form').on('click', '.cancelBtn', function(){
+    editModeVar = false;
+    formatEditMode();
+  });
+
   console.log('Edit mode is:',editModeVar);
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.delBtn', deleteBook);
@@ -29,15 +42,30 @@ function toggleEditMode(event) {
 
 // format the editMode layout.
 function formatEditMode() {
-  $('#h3').text('Edit Book');
-  $('#book-form').append(`<button class="cancelBtn">Cancel</button>`);
-  $('#title').val(``);
-  $('#author').val(``);
+  if(editModeVar === true) {
+    $('#h3').text('Edit Book');
+    $('#book-form').append(`<button class="cancelBtn">Cancel</button>`);
+    getBookWithId();
+  } else {
+    $('#h3').text('Add New Book');
+    $('#title').val('');
+    $('#author').val('');
+    $('.cancelBtn').remove();
+  }
 }
 
-// get book with specific bookid.
-function getBookWithId(bookid) {
-  
+// get book with specific bookid and change the 
+// input values to the book's title and author.
+function getBookWithId() {
+  $.ajax({
+    method: 'GET',
+    url: `/books/${editBookId}`
+  }).then((response) => {
+    $('#title').val(`${response[0].title}`);
+    $('#author').val(`${response[0].author}`);
+  }).catch((error) => {
+    console.log(error);
+  });
 }
 
 function handleSubmit() {
