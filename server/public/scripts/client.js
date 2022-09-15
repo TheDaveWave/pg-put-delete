@@ -111,7 +111,7 @@ function updateBook(event) {
     isRead = false;
   }
   // console.log(isRead);
-
+  // PUT request for "books".
   $.ajax({
     method: 'PUT',
     url: `/books/${bookid}`,

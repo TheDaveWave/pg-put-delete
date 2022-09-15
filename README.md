@@ -41,11 +41,11 @@ To do this we should first create a variable to indicate if we are in add or edi
 
 Then we can add an edit button for each book. When clicked:
 
-- Save the book id in a global variable
-- Switch the mode to edit
-- Fill the form with the current title and author of the book
-- Change the heading from Add Book to Edit Book
-- The edit mode should also show a cancel button, which should switch back to add mode, clearing the inputs without saving data.
+- [ ] Save the book id in a global variable
+- [ ] Switch the mode to edit
+- [ ] Fill the form with the current title and author of the book
+- [ ] Change the heading from Add Book to Edit Book
+- [ ] The edit mode should also show a cancel button, which should switch back to add mode, clearing the inputs without saving data.
 
 When the submit button is clicked:
 - If the mode is add - do the original POST
