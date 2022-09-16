@@ -16,6 +16,8 @@ function addClickHandlers() {
     formatEditMode();
   });
 
+  $('#order-by').on('click', 'button', orderBy);
+
   // TODO - Add code for edit & delete buttons
   $('#bookShelf').on('click', '.delBtn', deleteBook);
   $('#bookShelf').on('click', '.readBtn', updateBook);
@@ -35,6 +37,8 @@ function toggleEditMode(event) {
   editModeVar = true;
   console.log('Toggle:',editModeVar);
   editBookId = $(event.target).siblings('.delBtn').data('bookid');
+  // force the page to scroll to the top.
+  $(window).scrollTop(0);
   formatEditMode();
 }
 
@@ -109,7 +113,31 @@ function refreshBooks() {
   });
 }
 
-
+function orderBy(event) {
+  let order = $(event.target).text().toLowerCase();
+  // console.log(order);
+  if(order === 'title'){
+    $.ajax({
+      type: 'GET',
+      url: '/books'
+    }).then(function(response) {
+      console.log('refreshed book list:',response);
+      renderBooks(response);
+    }).catch(function(error){
+      console.log('error in GET', error);
+    });
+  } else if (order === 'author') {
+    $.ajax({
+      type: 'GET',
+      url: '/books/author'
+    }).then(function(response) {
+      console.log('refreshed book list:',response);
+      renderBooks(response);
+    }).catch(function(error){
+      console.log('error in GET', error);
+    });
+  }
+}
 // Displays an array of books to the DOM
 function renderBooks(books) {
   $('#bookShelf').empty();

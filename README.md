@@ -56,7 +56,7 @@ When the submit button is clicked:
 - [x] Add validation to the add input form
     - The client side code should make sure that required fields are filled in. You can do this by making the HTML inputs required. Make sure to do something so the user can tell which fields are required. 
     - The server side should also check that it gets all required fields. If required fields are missing, send back a 400 status code.
-- [ ] Add a way to change the order in which books are shown - sort by title vs sort by author
+- [x] Add a way to change the order in which books are shown - sort by title vs sort by author
 - [ ] Improve the styling of the page -- Bootstrap & CSS
     - [ ] Improve the table layout. Give alternating rows a difference in color
     - [ ] Make the buttons more UX friendly -- Red for delete, etc. Green for save/submit. 
