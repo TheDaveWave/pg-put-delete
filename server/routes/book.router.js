@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 router.post('/',  (req, res) => {
   let newBook = req.body;
   
-  if(!newBook.author || !newBook.title && newBook.author !== '' || newBook.title !== '') {
+  if(newBook.author === '' || newBook.title === '') {
     res.sendStatus(400);
   } else {
     console.log(`Adding book`, newBook);
@@ -43,7 +43,7 @@ router.get('/:bookid', (req,res) => {
   let bookid = req.params.bookid;
   console.log(`In GET route /books/${bookid}`, req.params);
   let query = `SELECT * FROM "books" WHERE "id"=$1;`;
-  if(!bookid && bookid !== '') {
+  if(!bookid || bookid === '') {
     res.status(400).send('Missing data in required request');
   } else {
     pool.query(query, [bookid]).then((result) => {
@@ -64,7 +64,7 @@ router.put('/:bookid', (req, res) => {
   let bookid = req.params.bookid;
   let book = req.body;
   let query = `UPDATE "books" SET "isRead" = $1 WHERE id = $2 RETURNING *;`;
-  if(!bookid && bookid !== '') {
+  if(!bookid || bookid === '') {
     res.status(400).send('Missing data in required request');
   } else {
     pool.query(query, [book.isRead, bookid]).then((result) => {
@@ -81,7 +81,7 @@ router.put('/edit/:bookid', (req,res) => {
   console.log(`In PUT route /books/edit/${bookid}`);
   let book = req.body;
   let query = `UPDATE "books" SET "title"=$1, "author"=$2 WHERE id=$3 RETURNING *;`;
-  if(!bookid || !book.title || !book.author && bookid !== '' || book.title !== '' || book.author !== '') {
+  if(!bookid || !book.title || !book.author || bookid === '' || book.title === '' || book.author === '') {
     res.status(400).send('Missing data in required request');
   } else {
     pool.query(query, [book.title, book.author, bookid])
@@ -101,7 +101,7 @@ router.delete('/:bookid', (req, res) => {
   console.log('In DELETE route /books', req.params);
   let bookid = req.params.bookid;
   const query = `DELETE FROM "books" WHERE id=$1;`;
-  if(!bookid && bookid !== '') {
+  if(!bookid || bookid === '') {
     res.status(400).send('Missing data in required request');
   } else {
     pool.query(query, [bookid]).then(() => {
