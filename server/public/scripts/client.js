@@ -76,6 +76,8 @@ function handleSubmit() {
     book.author = $('#author').val();
     book.title = $('#title').val();
     addBook(book);
+    $('#author').val('');
+    $('#title').val('');
   }
 }
 
@@ -90,7 +92,7 @@ function addBook(bookToAdd) {
       refreshBooks();
     }).catch(function(error) {
       console.log('Error in POST', error)
-      alert('Unable to add book at this time. Please try again later.');
+      alert('Please fill in all inputs.');
     });
 }
 
