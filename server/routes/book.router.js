@@ -64,7 +64,7 @@ router.put('/:bookid', (req, res) => {
   let bookid = req.params.bookid;
   let book = req.body;
   let query = `UPDATE "books" SET "isRead" = $1 WHERE id = $2 RETURNING *;`;
-  if(!bookid || !book.isRead && bookid !== '' || book.isRead !== '') {
+  if(!bookid && bookid !== '') {
     res.status(400).send('Missing data in required request');
   } else {
     pool.query(query, [book.isRead, bookid]).then((result) => {
